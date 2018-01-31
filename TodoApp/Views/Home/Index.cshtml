@@ -1,0 +1,110 @@
+﻿@model TodoApp.Models.Todo
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <link href="@Url.Content("~/Content/form.css")" rel="stylesheet" type="text/css" />
+
+    <a type="button"
+       class="btn"
+       href="#todo-add"
+       data-toggle="modal"><img src="~/images/add.ico" style="width: 40px; height: 40px;" /></a>
+   
+        <div id="showTodo"></div>
+    
+        <div class="modal fade" id="todo-add">
+        <div class="form">
+            <div class="tab-content">
+                <div id="signup">
+                    <h1>Todo App</h1>
+                    <div class="field-wrap">
+                        <label>
+                            Title<span class="req">*</span>
+                        </label>
+                        @Html.EditorFor(model => model.Tittle, new { htmlAttributes = new { @type = "text" } })
+                        @Html.ValidationMessageFor(model => model.Tittle, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="field-wrap">
+                        <label>
+                            Message<span class="req">*</span>
+                        </label>
+                        @Html.EditorFor(model => model.Message, new { htmlAttributes = new { cols = 35, @rows = 3 } })
+                        @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+                    </div>
+                    <button type="submit" id="buttonAddTodo" value="Create" class="button button-block">Add Todo</button>
+                </div>
+                <div id="login">
+                </div>
+            </div><!-- tab-content -->
+
+        </div> <!-- /form -->
+
+    </div>
+
+
+
+
+
+
+
+
+
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript">
+    $('.form').find('input, textarea').on('keyup blur focus', function (e) {
+
+  var $this = $(this),
+      label = $this.prev('label');
+
+	  if (e.type === 'keyup') {
+			if ($this.val() === '') {
+          label.removeClass('active highlight');
+        } else {
+          label.addClass('active highlight');
+        }
+    } else if (e.type === 'blur') {
+    	if( $this.val() === '' ) {
+    		label.removeClass('active highlight');
+			} else {
+		    label.removeClass('highlight');
+			}
+    } else if (e.type === 'focus') {
+
+      if( $this.val() === '' ) {
+    		label.removeClass('highlight');
+			}
+      else if( $this.val() !== '' ) {
+		    label.addClass('highlight');
+			}
+    }
+
+    });
+   
+                var tbl = $('#showTodo');
+                $.ajax({
+                    url: '/Home/ShowTodo',
+                    contentType: 'application/html ; charset:utf-8',
+                    type: 'GET',
+                    dataType: 'html',
+                }).success(function (result) {
+                    $(tbl).html(result);
+                }).error(function () {
+
+                });
+      
+              
+          
+</script>
+}

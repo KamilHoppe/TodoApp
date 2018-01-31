@@ -1,0 +1,23 @@
+﻿@model IEnumerable<TodoApp.Models.Todo>
+
+    @foreach (var item in Model)
+    {
+
+
+        <div class="form" style="display:inline-block;">
+
+            <div class="field-wrap">
+                <h1> @Html.DisplayFor(modelItem => item.Tittle)</h1>
+            </div>
+            <div class="field-wrap">
+                <h2>@Html.DisplayFor(modelItem => item.Date)</h2>
+            </div>
+            <div class="field-wrap">
+                <h3>@Html.DisplayFor(modelItem => item.Message)</h3>
+            </div>
+        </div>
+
+        
+    }
+
+  
